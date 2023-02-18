@@ -12,13 +12,21 @@ const tabs = [
 ]
 
 export default function editor() {
+  function handleHighlight() {
+    const selection = window.getSelection();
+    if (selection?.toString()) {
+      alert(`Text selected: ${selection.toString()}`);
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div onMouseUp={handleHighlight} className="min-h-screen bg-gray-100">
       <Navbar />
       <div className="py-6">
         <div className="mx-auto max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-8 lg:px-8">
           <main className="col-span-7">
-            <PDFViewer pdfLink="https://arxiv.org/pdf/1706.03762.pdf" />
+            <h1>hasdfjsadf</h1>
+            {/* <PDFViewer pdfUrl="https://arxiv.org/pdf/1706.03762.pdf" /> */}
           </main>
           <aside className="col-span-5 xl:block">
             <div className="sticky top-6 space-y-4 p-5 bg-white rounded-md shadow-sm min-h-screen">

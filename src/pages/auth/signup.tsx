@@ -38,6 +38,24 @@ const HomePage = () => {
             className="inline-flex items-center w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 space-x-3"
           >
             <img className="w-6 h-6" src="https://freesvg.org/img/1534129544.png" alt="google" />
+            <span className="text-md">Sign up with Google</span>
+          </a>
+
+          <div className="relative mt-6">
+            <div className="absolute inset-0 flex items-center" aria-hidden="true">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="bg-white px-2 text-gray-500">Or continue with</span>
+            </div>
+          </div>
+
+          <a
+            href="#"
+            onClick={formSubmit}
+            className="inline-flex items-center w-full justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 space-x-3"
+          >
+            <img className="w-6 h-6" src="https://freesvg.org/img/1534129544.png" alt="google" />
             <span className="text-md">Sign in with Google</span>
           </a>
         </div>

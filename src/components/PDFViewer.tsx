@@ -1,28 +1,48 @@
-import React, { useState } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+import React, { useEffect, useState } from 'react';
+import { PDFViewer, PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer';
 
-interface PDFViewerProps {
-  pdfLink: string;
+interface PDFProps {
+  pdfUrl: string;
 }
 
-const PDFViewer: React.FC<PDFViewerProps> = ({ pdfLink }) => {
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const [pageNumber, setPageNumber] = useState(1);
+const PDFComponent: React.FC<PDFProps> = ({ pdfUrl }) => {
+  const [pdfData, setPdfData] = useState('');
+  const [isBrowser, setIsBrowser] = useState(false);
 
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-  };
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setIsBrowser(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchPdfData = async () => {
+      const response = await fetch(pdfUrl);
+      const data = await response.text();
+      setPdfData(data);
+    };
+
+    fetchPdfData();
+  }, [pdfUrl]);
 
   return (
-    <div>
-      <Document file={pdfLink} onLoadSuccess={onDocumentLoadSuccess}>
-        {Array.from(new Array(numPages), (el, index) => (
-          <Page key={`page_${index + 1}`} pageNumber={index + 1} />
-        ))}
-      </Document>
-    </div>
+    <>
+      {isBrowser && (
+        <>
+          <PDFViewer>
+            <Document>
+              <Page>
+                <Text>{pdfData}</Text>
+              </Page>
+            </Document>
+          </PDFViewer>
+          <PDFDownloadLink document={<Document><Page><Text>{pdfData}</Text></Page></Document>} fileName="document.pdf">
+            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
+          </PDFDownloadLink>
+        </>
+      )}
+    </>
   );
 };
 
-export default PDFViewer;
+export default PDFComponent;
