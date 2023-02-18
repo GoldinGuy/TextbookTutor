@@ -137,7 +137,7 @@ const HomePage = () => {
 											id={file}
 											className="flex justify-center"
 										>
-											<div className="relative flex flex-row items-center m-2 text-sm font-normal rounded w-36 h-52 bg-fuchsia-50 hover:scale-105 hover:shadow-xl">
+											<div className="relative flex flex-row items-center m-2 text-sm font-normal rounded w-36 h-52 bg-indigo-50 hover:scale-105 hover:shadow-xl">
 												<div className="absolute top-0 right-0 ml-5 text-col">
 													<h3 className="float-left w-full px-3 py-3 font-semibold">
 														{file.replace("+", " ").replace(".pdf", "")}
