@@ -1,0 +1,86 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+
+#gradient-canvas {
+  top: 0px;
+  position: fixed;
+  width:100%;
+  height: 100vh;
+  min-height: 100%;
+  overflow: hidden;
+  /* height:100vh; */
+  z-index: -1;
+  --gradient-color-1: #ec4899; 
+  --gradient-color-2: #a855f7; 
+  --gradient-color-3: #01356B;  
+  --gradient-color-4: #deb9ff;
+}
+
+.love_btn span {
+    --radialWidth: 40%;
+    --radialLength: 10%;
+    position: relative;
+    font-family: Inter;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 24px;
+    padding: 8px 16px;
+    border: none;
+    appearance: none;
+    background-color: transparent;
+    border-radius: 999px;
+    cursor: pointer;
+    height: 60px;
+    width: 150px;
+    font-size: 20px;
+}
+
+.love_btn::after {
+    content: "";
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    opacity: 0;
+    background: radial-gradient( var(--radialLength) var(--radialWidth) at 50% 120%, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0) 100% );
+    transition: all 1s ease 0s;
+    border-radius: 999px;
+    animation: 0.4s ease 0s 1 normal forwards running cQnxEX;
+}
+
+.love_btn::before {
+    content: "";
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn_wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 999px;
+    padding: 2px;
+    display: inline-block;
+}
+
+
+.text-trans  {
+    font-family: Inter;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 48px;
+    text-align: center;
+    -webkit-text-fill-color: transparent;
+    background: radial-gradient(123.44% 123.44% at 56.63% 100%, rgb(236, 236, 238) 6.77%, rgba(255, 255, 255, 0.45) 100%) text;
+}
+
+
