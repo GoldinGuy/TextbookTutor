@@ -14,9 +14,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@aws-sdk/client-lambda": "^3.272.0",
+    "@aws-sdk/credential-provider-cognito-identity": "^3.272.0",
     "@headlessui/react": "^1.7.11",
     "@heroicons/react": "^2.0.16",
     "@phuocng/react-pdf-viewer": "^1.7.0",
+    "@react-pdf-viewer/toolbar": "^3.11.0",
     "@react-pdf/png-js": "^2.2.0",
     "@react-pdf/renderer": "^3.1.5",
     "aws-sdk": "^2.1318.0",

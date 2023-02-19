@@ -29,7 +29,11 @@ export default function Editor() {
 		null
   );
   const [fileName, setFileName] = useState("");
-	const router = useRouter();
+  const router = useRouter();
+  
+  useEffect(() => {
+      fetch("/api/get_semantic");
+  }, []);
 
 	// Set search query from URL
 	useEffect(() => {

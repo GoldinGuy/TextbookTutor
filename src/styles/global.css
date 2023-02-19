@@ -93,23 +93,23 @@
    height: 200px;
 }
  .cards div:nth-child(1) {
-	 transform: translate(-50%, -50%) rotate(-16.6666666667deg);
+	 transform: translate(-50%, -50%) rotate(-18.6666666667deg);
 }
  .cards div:nth-child(2) {
 	 transform: translate(-50%, -50%) rotate(0deg);
 }
  .cards div:nth-child(3) {
-	 transform: translate(-50%, -50%) rotate(16.6666666667deg);
+	 transform: translate(-50%, -50%) rotate(18.6666666667deg);
 }
 
  .cards:hover div:nth-child(1) {
-	 transform: translate(-50%, -50%) rotate(-25deg);
+	 transform: translate(-50%, -50%) rotate(-28deg);
 }
  .cards:hover div:nth-child(2) {
 	 transform: translate(-50%, -50%) rotate(0deg);
 }
  .cards:hover div:nth-child(3) {
-	 transform: translate(-50%, -50%) rotate(25deg);
+	 transform: translate(-50%, -50%) rotate(28deg);
 }
  
  .card {
