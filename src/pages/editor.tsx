@@ -39,21 +39,45 @@ export default function Editor() {
   const [responseLoading, setResponseLoading] = useState(false);
   const [messageContent, setMessageContent] = useState("");
 
+  const [searchContent, setSearchContext] = useState("");
+  const [isSearching, setIsSearching] = useState(false);
+
   const [searches, setSearches] = useState<Search[]>([]);
 
   const [fileName, setFileName] = useState("");
   
-  useEffect(() => {
-    if (fileName.length > 0) {
-      fetch(`/api/get_semantic?file=${fileName}&query=${'what do you think about transformers?'}`).then((res) => res.json()).then((data) => {
-        console.log("data", data);
-      }).catch((err) => {
-        console.log(err);
-      });
-    }
-  }, [fileName]);
+  // useEffect(() => {
+  //   if (fileName.length > 0) {
+  //     fetch(`/api/get_semantic?file=${fileName}&query=${'what do you think about transformers?'}`).then((res) => res.json()).then((data) => {
+  //       console.log("data", data);
+  //     }).catch((err) => {
+  //       console.log(err);
+  //     });
+  //   }
+  // }, [fileName]);
 
-	// Set search query from URL
+  const handleSemanticSearch = (query: string) => {
+    setIsSearching(true);
+		if (fileName.length > 0) {
+			fetch(`/api/get_semantic?file=${fileName}&query=${query}`)
+				.then((res) => res.json())
+				.then((data) => {
+          console.log("data", data);
+          Object.keys(data).map((s, i) => {
+            setSearches((searches) => [...searches, { text: s?.slice(0, 30), preview: s?.slice(30) }]);
+          })
+          setSearchContext("");
+          setIsSearching(false);
+				})
+				.catch((err) => {
+          console.log(err);
+          setSearchContext("");
+           setIsSearching(false);
+				});
+		}
+	};
+
+	// Set file query from URL
 	useEffect(() => {
 		if (router.isReady) {
 			const name = router.query.file as string;
@@ -132,7 +156,10 @@ export default function Editor() {
   }
 
 	return (
-		<div onMouseUp={handleHighlight} className="absolute inset-0 flex flex-col w-full h-screen max-h-screen bg-gray-100 min-w-fit">
+		<div
+			onMouseUp={handleHighlight}
+			className="absolute inset-0 flex flex-col w-full h-screen max-h-screen bg-gray-100 min-w-fit"
+		>
 			{/* <Navbar /> */}
 			<div className="flex-1 py-6">
 				<div className="h-full max-w-3xl mx-auto sm:px-6 md:grid md:max-w-7xl md:grid-cols-12 md:gap-8 md:px-8">
@@ -219,66 +246,76 @@ export default function Editor() {
 										</>
 									))}
 
-                  {mode === "search" && (
-                    <>
-                      <h3 className="text-lg font-semibold">Search</h3>
+								{mode === "search" && (
+									<>
+										<h3 className="text-lg font-semibold">Search</h3>
 
-                      <div className="relative mt-1 rounded-md shadow-sm">
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                          <MagnifyingGlassIcon className="w-5 h-5 text-gray-400" aria-hidden="true" />
-                        </div>
-                        <input
-                          onKeyDown={(e) => {
-                            if (e.keyCode === 13) {
-                              e.preventDefault();
-                            }
-                          }}
-                          type="text"
-                          className="block w-full py-2 pl-10 pr-4 border border-gray-400 rounded-md focus:border-gray-800 sm:text-sm"
-                          placeholder="Search here"
-                        />
-                      </div>
+										<div className="relative mt-1 rounded-md shadow-sm">
+											<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+												<MagnifyingGlassIcon
+													className="w-5 h-5 text-gray-400"
+													aria-hidden="true"
+												/>
+											</div>
+											<input
+                        value={searchContent}
+                        onChange={(e) => setSearchContext(e.target.value)}
+                        readOnly={isSearching}
+												onKeyDown={(e) => {
+													if (e.keyCode === 13) {
+                            e.preventDefault();
+                            handleSemanticSearch(searchContent);
+													}
+												}}
+												type="text"
+												className="block w-full py-2 pl-10 pr-4 border border-gray-400 rounded-md focus:border-gray-800 sm:text-sm"
+												placeholder="Search here"
+											/>
+										</div>
 
-                      {searches.length > 0 ? (
-                        <div className="space-y-2">
-                          {searches.map((search) => (
-                            <div
-                              className="px-3 py-2 transition border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100"
-                              key={search.text}
-                            >
-                              <h3 className="font-medium text-md">
-                                {search.text}
-                              </h3>
-                              <p className="text-sm text-gray-500">
-                                {search.preview}...
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="py-4 text-sm text-center text-gray-500">
-                          No searches yet.
-                        </div>
-                      )}
-                    </>  
-                  )}
+										{searches.length > 0 ? (
+											<div className="space-y-2">
+												{searches.map((search) => (
+													<div
+														className="px-3 py-2 transition border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100"
+														key={search.text}
+													>
+														<h3 className="font-medium text-md">
+															{search.text}
+														</h3>
+														<p className="text-sm text-gray-500">
+															{search.preview}...
+														</p>
+													</div>
+												))}
+											</div>
+										) : (
+											<div className="py-4 text-sm text-center text-gray-500">
+												No searches yet.
+											</div>
+										)}
+									</>
+								)}
 							</div>
 
 							{mode === "highlight" && currentHighlight && (
 								<div>
 									<div>
-										<ChatDisplay threadData={currentHighlight?.thread} responseLoading={responseLoading} />
+										<ChatDisplay
+											threadData={currentHighlight?.thread}
+											responseLoading={responseLoading}
+										/>
 
 										<div className="flex items-center space-x-2">
 											<input
-                        onKeyDown={(e) => {
-                          if (e.keyCode === 13) {
-                            e.preventDefault();
-                            sendMessage(messageContent);
-                          }
-                        }}
-                        value={messageContent}
-                        onChange={e => setMessageContent(e.target.value)}
+												onKeyDown={(e) => {
+													if (e.keyCode === 13) {
+														e.preventDefault();
+														sendMessage(messageContent);
+													}
+												}}
+												value={messageContent}
+												onChange={(e) => setMessageContent(e.target.value)}
 												type="text"
 												className="block w-full px-3 py-2 border border-gray-400 rounded-md shadow-sm sm:text-sm"
 												placeholder="Type your question here"
@@ -286,10 +323,10 @@ export default function Editor() {
 											<button
 												type="button"
 												className="inline-flex items-center px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-100 border border-transparent rounded-md hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          sendMessage(messageContent);
-                        }}
+												onClick={(e) => {
+													e.preventDefault();
+													sendMessage(messageContent);
+												}}
 											>
 												Send
 											</button>
