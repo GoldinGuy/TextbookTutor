@@ -34,7 +34,7 @@ function FileDropzone({ setFile }: { setFile: Function }) {
       });
       setUploadingStatus(false);
       console.log("file", file.name, data.name);
-      setFile(data.name);
+      setFile(file.name);
     }
   }
 

@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let { name, type } = req.body;
     // Setting parameters - ACL will allow us to see a file
     const fileParams = {
-      Bucket: process.env.BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
       Key: name,
       Expires: 600,
       ContentType: type,
