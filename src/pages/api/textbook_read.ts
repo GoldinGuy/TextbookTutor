@@ -3,8 +3,8 @@ import S3 from "aws-sdk/clients/s3";
 // Create S3 instance
 const s3 = new S3({
 	region: "eu-central-1",
-	accessKeyId: process.env.ACCESS_KEY,
-	secretAccessKey: process.env.SECRET_KEY,
+	accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID,
+	secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
 	signatureVersion: "v4",
 });
 export const config = {
@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     let { name, type } = req.body;
     // Setting parameters - ACL will allow us to see a file
     const fileParams = {
-      Bucket: process.env.BUCKET_NAME,
+      Bucket: process.env.NEXT_PUBLIC_AWS_BUCKET_NAME,
       Key: name,
       Expires: 600,
       ContentType: type,

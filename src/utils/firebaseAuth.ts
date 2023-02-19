@@ -7,7 +7,7 @@ import { getFirestore } from "firebase/firestore";
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 const firebaseConfig = {
-	apiKey: process.env.FIREBASE_API_KEY,
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
 	authDomain: "treehacks-dfd7c.firebaseapp.com",
 	projectId: "treehacks-dfd7c",
 	storageBucket: "treehacks-dfd7c.appspot.com",

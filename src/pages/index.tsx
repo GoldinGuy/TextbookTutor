@@ -51,6 +51,7 @@ const HomePage = () => {
   // }, [sampleFiles]);
 
   useEffect(() => {
+    console.log("run", file)
     if (file?.length > 0) router.push(`/editor?file=${file.replaceAll(" ", "+")}`);
 	}, [file, router]);
 
