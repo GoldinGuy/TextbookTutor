@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { PDFViewer, PDFDownloadLink, Document, Page, Text } from '@react-pdf/renderer';
+import axios from "axios"
 
 interface PDFProps {
   pdfUrl: string;
@@ -16,13 +17,14 @@ const PDFComponent: React.FC<PDFProps> = ({ pdfUrl }) => {
   }, []);
 
   useEffect(() => {
-    const fetchPdfData = async () => {
-      const response = await fetch(pdfUrl);
-      const data = await response.text();
-      setPdfData(data);
-    };
+    const fetchPdfData = async function fetchPdfData(url: string): Promise<ArrayBuffer> {
+      const response = await axios.get(url, {
+        responseType: "arraybuffer",
+      });
+      return response.data;
+    }
 
-    fetchPdfData();
+    fetchPdfData(pdfUrl);
   }, [pdfUrl]);
 
   return (
@@ -36,9 +38,6 @@ const PDFComponent: React.FC<PDFProps> = ({ pdfUrl }) => {
               </Page>
             </Document>
           </PDFViewer>
-          <PDFDownloadLink document={<Document><Page><Text>{pdfData}</Text></Page></Document>} fileName="document.pdf">
-            {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
-          </PDFDownloadLink>
         </>
       )}
     </>

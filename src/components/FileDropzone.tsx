@@ -54,18 +54,18 @@ function FileDropzone() {
 					/>
 				</div>
 
-				{acceptedFiles.length > 0 && (
+				{uploading && (
 					<>
 						<div className="block mt-2 text-sm font-medium text-gray-900">
 							{acceptedFiles[0].name}
 						</div>
 						<div className="block mt-2 text-sm text-gray-600">
-							Uploading {acceptedFiles[0].size} bytes
+							Uploading {acceptedFiles[0].size} bytes...
 						</div>
 					</>
 				)}
 
-				{acceptedFiles.length === 0 && (
+				{!uploading && (
 					<div className="block mt-2 text-sm font-medium text-gray-900">
 						Drop your files here or click to upload
 					</div>
