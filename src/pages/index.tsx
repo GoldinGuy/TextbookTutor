@@ -119,7 +119,7 @@ const HomePage = () => {
 						<a
 							href="#"
 							className="text-sm font-semibold leading-6 text-gray-900"
-              onClick={() => setFile("sample2.pdf")}
+              onClick={() => setFile("attention.pdf")}
 						>
 							Try it out <span aria-hidden="true">&rarr;</span>
 						</a>
