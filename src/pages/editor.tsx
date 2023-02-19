@@ -115,7 +115,7 @@ export default function Editor() {
       setHighlights((highlights) => [...highlights, newHighlight]);
 			setCurrentHighlight(newHighlight);
 
-      sendMessage(`Explain the following highlighted text in the context of the PDF text: "${selection.toString()}"`);
+      sendMessage(`Explain the following highlighted text: "${selection.toString()}"`);
 		}
 	}
 
@@ -132,7 +132,7 @@ export default function Editor() {
           text: text,
           sender: {
             avatar:
-              "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y",
+              `https://api.dicebear.com/5.x/fun-emoji/svg?seed=${"happy"}`,
           },
         },
       ],
@@ -151,7 +151,7 @@ export default function Editor() {
           text: response,
           sender: {
             avatar:
-            "https://pbs.twimg.com/profile_images/1603113436757389313/wpYDqrIf_400x400.jpg",
+            "/assets/logo.png",
           },
         },
       ],
@@ -163,9 +163,9 @@ export default function Editor() {
 	return (
 		<div
 			onMouseUp={handleHighlight}
-			className="absolute inset-0 flex flex-col w-full h-screen max-h-screen bg-gray-100 min-w-fit"
+			className="absolute inset-0 flex flex-col w-full max-h-screen bg-gray-100 min-w-fit"
 		>
-			{/* <Navbar /> */}
+			<Navbar />
 			<div className="flex-1 py-6">
 				<div className="h-full max-w-3xl mx-auto sm:px-6 md:grid md:max-w-7xl md:grid-cols-12 md:gap-8 md:px-8">
 					<main className="col-span-7">
@@ -175,7 +175,7 @@ export default function Editor() {
 							/>
 						)}
 					</main>
-					<aside className="col-span-5 overflow-hidden xl:block">
+					<aside className="col-span-5 xl:block">
 						<div className="sticky flex flex-col justify-between h-full p-5 space-y-4 bg-white rounded-md shadow-md top-6">
 							<div className="space-y-6">
 								<div className="hidden sm:block">
@@ -274,14 +274,15 @@ export default function Editor() {
 
                       <div>
                         <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
-                          <dl className="mt-10 space-y-6 divide-y divide-gray-900/10">
+                          <dl className="space-y-6 divide-y divide-gray-900/10">
+                            <span className="text-sm italic text-gray-500">{currentSearch.results.length} results</span>
                             {currentSearch.results.map((result) => (
                               <Disclosure as="div" key={result} className="pt-6">
                                 {({ open }) => (
                                   <>
                                     <dt>
                                       <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
-                                        <span className="text-base font-semibold leading-7">{result.substring(0,50)}...</span>
+                                        <span className="text-base font-semibold leading-7">{result.substring(0,45)}...</span>
                                         <span className="ml-6 flex h-7 items-center">
                                           {open ? (
                                             <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />

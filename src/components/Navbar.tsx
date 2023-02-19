@@ -17,13 +17,13 @@ export default function Navbar() {
               <div className="flex">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="block h-8 w-auto lg:hidden"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    className="block h-12 w-auto lg:hidden"
+                    src="/assets/logo.png"
                     alt="Your Company"
                   />
                   <img
-                    className="hidden h-8 w-auto lg:block"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                    className="hidden h-12 w-auto lg:block"
+                    src="/assets/logo.png"
                     alt="Your Company"
                   />
                 </div>
