@@ -4,16 +4,16 @@ interface ChatDisplayProps {
 
 const ChatDisplay: React.FC<ChatDisplayProps> = ({ threadData }) => {
   return threadData ? (
-    <div className="divide-y divide-gray-200">
+    <div className="overflow-scroll divide-y divide-gray-200">
       {threadData.map((message: any) => (
-        <div className="py-5 flex space-x-3" key={message.id}>
+        <div className="flex py-5 space-x-3" key={message.id}>
           <img className="w-10 h-10 rounded-md" src={message.sender.avatar} />
-          <p className="text-md text-gray-700">{message.text}</p>
+          <p className="text-gray-700 text-md">{message.text}</p>
         </div>
       ))}
     </div>
   ) : (
-    <div className="text-center py-4 text-sm text-gray-500">Ask your first question!</div>
+    <div className="py-4 text-sm text-center text-gray-500">Ask your first question!</div>
   )
 }
 
