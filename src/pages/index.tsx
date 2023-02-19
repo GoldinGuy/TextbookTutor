@@ -111,13 +111,13 @@ const HomePage = () => {
 							</a>
 						))}
 					</div> */}
-					<div className="hidden lg:flex lg:flex-1 lg:justify-end">
+					<div className="hidden px-4 py-2 bg-gray-100 rounded-lg lg:flex lg:flex-1 lg:justify-end max-w-fit">
 						<a
 							href="#"
 							className="text-sm font-semibold leading-6 text-gray-900"
-              onClick={() => setFile("attention.pdf")}
+							onClick={() => setFile("attention.pdf")}
 						>
-							Try it out <span aria-hidden="true">&rarr;</span>
+							✨ Try it out <span aria-hidden="true">&rarr;</span>
 						</a>
 					</div>
 				</nav>
@@ -177,10 +177,10 @@ const HomePage = () => {
 							</div> */}
 
 							<div className="cards">
-                {DEFAULT_TEXTBOOKS.map((book, i) => {
-                  return (
-                    <div
-                      key={i}
+								{DEFAULT_TEXTBOOKS.map((book, i) => {
+									return (
+										<div
+											key={i}
 											onClick={() => setFile(book.name)}
 											className="card"
 											style={{
@@ -188,11 +188,11 @@ const HomePage = () => {
 											}}
 										></div>
 									);
-                })}
+								})}
 							</div>
-              <div className="flex mt-16 mb-8 text-center text-gray-600">
-                Or try a textbook others have uploaded :)
-              </div>
+							<div className="flex mt-16 mb-8 text-center text-gray-600">
+								Or click above to try a textbook others have uploaded :)
+							</div>
 						</div>
 					</div>
 					<div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
