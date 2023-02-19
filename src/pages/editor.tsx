@@ -56,7 +56,7 @@ export default function Editor() {
       fetch(`/api/get_semantic?file=${fileName}&query=${'test'}`).then((res) => res.json()).then((data) => {
         console.log("data", data);
         if (data.length === 0) {
-           fetch(`/api/upload_embeddings?file=${fileName}&query=${"test"}`);
+           fetch(`/api/upload_embeddings?file=${fileName}`);
         }
       }).catch((err) => {
         console.log(err);
@@ -279,7 +279,7 @@ export default function Editor() {
 											</div>
 
                       <div>
-                        <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
+                        <div className="max-w-4xl mx-auto divide-y divide-gray-900/10">
                           <dl className="space-y-6 divide-y divide-gray-900/10">
                             <span className="text-sm italic text-gray-500">{currentSearch.results.length} results</span>
                             {currentSearch.results.map((result) => (
@@ -287,18 +287,18 @@ export default function Editor() {
                                 {({ open }) => (
                                   <>
                                     <dt>
-                                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                                      <Disclosure.Button className="flex items-start justify-between w-full text-left text-gray-900">
                                         <span className="text-base font-semibold leading-7">{result.substring(0,45)}...</span>
-                                        <span className="ml-6 flex h-7 items-center">
+                                        <span className="flex items-center ml-6 h-7">
                                           {open ? (
-                                            <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                            <PlusSmallIcon className="w-6 h-6" aria-hidden="true" />
                                           ) : (
-                                            <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                            <MinusSmallIcon className="w-6 h-6" aria-hidden="true" />
                                           )}
                                         </span>
                                       </Disclosure.Button>
                                     </dt>
-                                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
+                                    <Disclosure.Panel as="dd" className="pr-12 mt-2">
                                       <p className="text-base leading-7 text-gray-600">{result}</p>
                                     </Disclosure.Panel>
                                   </>

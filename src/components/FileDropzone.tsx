@@ -6,7 +6,8 @@ import axios from "axios";
 
 function FileDropzone({ setFile }: { setFile: Function }) {
 	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
-	const [uploading, setUploadingStatus] = useState(false);
+  const [uploading, setUploadingStatus] = useState(false);
+  const [fileMsg, setFileMsg] = useState("Uploading");
 
   const uploadFile = async (file: File) => {
     if (!uploading) {
@@ -22,6 +23,7 @@ function FileDropzone({ setFile }: { setFile: Function }) {
         name: file.name,
         type: file.type,
       });
+      setFileMsg("Fetching URL of")
       // Fetching out an URL
       const url = data.url;
       console.log("url: ", url);
@@ -32,9 +34,15 @@ function FileDropzone({ setFile }: { setFile: Function }) {
           "Access-Control-Allow-Origin": "*",
         },
       });
+      setFileMsg("Processing embeddings for");
+      const res = await fetch(`/api/upload_embeddings?file=${file.name}`);
+      setFileMsg("Loading in");
+      const json = await res.json();
+      console.log("json", json);
       setUploadingStatus(false);
       console.log("file", file.name, data.name);
       setFile(data.name);
+      setFileMsg("Uploading");
     }
   }
 
@@ -61,9 +69,7 @@ function FileDropzone({ setFile }: { setFile: Function }) {
 							color="#555"
 						/>
 					)}
-					{uploading && (
-						<Loader />
-					)}
+					{uploading && <Loader />}
 				</div>
 
 				{uploading && (
@@ -72,7 +78,7 @@ function FileDropzone({ setFile }: { setFile: Function }) {
 							{acceptedFiles[0].name}
 						</div>
 						<div className="block mt-2 text-sm text-gray-600">
-							Uploading {acceptedFiles[0].size} bytes...
+							{fileMsg} {acceptedFiles[0].size} bytes...
 						</div>
 					</>
 				)}
@@ -81,7 +87,9 @@ function FileDropzone({ setFile }: { setFile: Function }) {
 					<div className="block mt-2 text-sm font-medium text-gray-900">
 						Drop your textbook here or click to upload
 						<br />
-						<span className="text-sm font-normal text-gray-600 ">Only PDF files {"<"} 25MB</span>
+						<span className="text-sm font-normal text-gray-600 ">
+							Only PDF files {"<"} 25MB
+						</span>
 					</div>
 				)}
 			</div>

@@ -5,12 +5,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import FileDropzone from "../components/FileDropzone";
 import { useRouter } from "next/router";
 
-// const navigation = [
-// 	{ name: "Product", href: "#" },
-// 	{ name: "Features", href: "#" },
-// 	{ name: "Marketplace", href: "#" },
-// 	{ name: "Company", href: "#" },
-// ];
+
 const DEFAULT_TEXTBOOKS = [
 	{
 		name: "sample1.pdf",

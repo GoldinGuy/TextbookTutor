@@ -26,15 +26,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			}),
 		});
 
-		console.log("cmd", payload);
-
 		const command = new InvokeCommand({
 			FunctionName: funcName,
 			// @ts-ignore
 			Payload: JSON.stringify(payload),
 			LogType: LogType.Tail,
     });
+		console.log("cmd", payload);
+
     const { Payload } = await client.send(command);
+		console.log("successfully did embeddings", Payload);
 
 		return res.status(200).json({ status: "successfully uploaded embeddings" });
 	};
@@ -42,7 +43,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	invoke("dewey-parse", {
 		s3_file_name: textbookName,
 		isIndex: "true",
-		query_to_embed: query,
+		query_to_embed: "",
 		isEmbed: "false",
 	});
 };
