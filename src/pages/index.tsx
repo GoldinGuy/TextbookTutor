@@ -1,20 +1,40 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import FileDropzone from "../components/FileDropzone";
+import { useRouter } from "next/router";
 
-const navigation = [
-	{ name: "Product", href: "#" },
-	{ name: "Features", href: "#" },
-	{ name: "Marketplace", href: "#" },
-	{ name: "Company", href: "#" },
+// const navigation = [
+// 	{ name: "Product", href: "#" },
+// 	{ name: "Features", href: "#" },
+// 	{ name: "Marketplace", href: "#" },
+// 	{ name: "Company", href: "#" },
+// ];
+const DEFAULT_TEXTBOOKS = [
+	{
+		name: "CHNS-120-Textbook+copy.pdf",
+		photo:
+			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
+	},
+	{
+		name: "CHNS-120-Textbook+copy.pdf",
+		photo:
+			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
+	},
+	{
+		name: "CHNS-120-Textbook+copy.pdf",
+		photo:
+			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
+	},
 ];
 
 const HomePage = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 	const [sampleFiles, setSampleFiles] = useState<string[]>([]);
-
+  const router = useRouter();
+  const [file, setFile] = useState<string>("");
+	
 	useEffect(() => {
 		if (sampleFiles.length === 0) {
 			fetch("/api/get_samples")
@@ -31,7 +51,11 @@ const HomePage = () => {
 					console.log(err);
 				});
 		}
-	}, [sampleFiles]);
+  }, [sampleFiles]);
+
+  useEffect(() => {
+    if (file.length > 0) router.push(`/editor?file=${file.replaceAll(" ", "+")}`);
+	}, [file, router]);
 
 	return (
 		<div className="bg-white isolate">
@@ -64,12 +88,8 @@ const HomePage = () => {
 				<nav className="flex items-center justify-between" aria-label="Global">
 					<div className="flex lg:flex-1">
 						<a href="#" className="-m-1.5 p-1.5">
-							<span className="sr-only">Your Company</span>
-							<img
-								className="h-8"
-								src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-								alt=""
-							/>
+							<span className="sr-only">Dewey</span>
+							<img className="h-14" src={"./assets/logo.png"} alt="" />
 						</a>
 					</div>
 					<div className="flex lg:hidden">
@@ -82,7 +102,7 @@ const HomePage = () => {
 							<Bars3Icon className="w-6 h-6" aria-hidden="true" />
 						</button>
 					</div>
-					<div className="hidden lg:flex lg:gap-x-12">
+					{/* <div className="hidden lg:flex lg:gap-x-12">
 						{navigation.map((item) => (
 							<a
 								key={item.name}
@@ -92,7 +112,7 @@ const HomePage = () => {
 								{item.name}
 							</a>
 						))}
-					</div>
+					</div> */}
 					<div className="hidden lg:flex lg:flex-1 lg:justify-end">
 						<a
 							href="#"
@@ -104,38 +124,37 @@ const HomePage = () => {
 				</nav>
 			</div>
 			<main>
-				<div className="relative py-16 sm:py-24 lg:pb-40">
+				<div className="relative pt-6 pb-10 sm:pb-10 lg:pb-40">
 					<div className="px-6 mx-auto max-w-7xl lg:px-8">
 						<div className="max-w-2xl mx-auto text-center">
 							<h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900 sm:text-6xl">
-								Reading textbooks just got easier
+								Textbooks just got{" "}
+								<span className="relative flex self-start w-auto mx-auto mb-4 font-bold tracking-tight text-black max-w-fit">
+									<span className="z-20">upgraded</span>
+									<span className="absolute z-0 inline-block w-full h-8 mt-5 break-words bg-yellow-300 sm:ml-2"></span>
+								</span>
 							</h1>
 							<p className="mt-6 text-lg leading-8 text-gray-600">
-								Easily understand your textbooks with our AI-powered, chat-based
-								explanations and semantic search.
+								Easily understand your readings with <i>Dewey&apos;s</i>{" "}
+								AI-powered chat-based explanations and semantic search.
 							</p>
 						</div>
-						<div className="flex flex-col items-center justify-center mt-16 sm:mt-24">
-							<FileDropzone />
-
-							{sampleFiles.length > 0 && (
-								<div className="flex mt-20 mb-8 text-center">
-									Or try a textbook others have uploaded:
-								</div>
-							)}
-
-							<div className="flex flex-row">
+						<div className="flex flex-col items-center justify-center mt-8 sm:mt-12">
+							<FileDropzone setFile={setFile} />
+							<div className="flex w-20 h-16"></div>
+							{/* <div className="cards">
 								{sampleFiles.map((file, i) => {
 									return (
 										<a
 											key={i}
-											href={process.env.NEXT_PUBLIC_AWS_BUCKET_URL + file}
+											// href={process.env.NEXT_PUBLIC_AWS_BUCKET_URL + file}
+											onClick={() => setFile(file)}
 											target="_blank"
 											data-attr="textbook"
 											rel="noreferrer"
 											title={file}
 											id={file}
-											className="flex justify-center"
+											className="flex justify-center card"
 										>
 											<div className="relative flex flex-row items-center m-2 text-sm font-normal rounded w-36 h-52 bg-indigo-50 hover:scale-105 hover:shadow-xl">
 												<div className="absolute top-0 right-0 ml-5 text-col">
@@ -156,7 +175,27 @@ const HomePage = () => {
 										</a>
 									);
 								})}
+							</div> */}
+
+							<div className="cards">
+                {DEFAULT_TEXTBOOKS.map((book, i) => {
+                  return (
+                    <div
+                      key={i}
+											onClick={() => setFile(book.name)}
+											className="card"
+											style={{
+												backgroundImage: `url(${book.photo})`,
+											}}
+										></div>
+									);
+                })}
 							</div>
+							{sampleFiles.length > 0 && (
+								<div className="flex mt-16 mb-8 text-center text-gray-600">
+									Or try a textbook others have uploaded :)
+								</div>
+							)}
 						</div>
 					</div>
 					<div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">
