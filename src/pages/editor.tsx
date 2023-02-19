@@ -250,7 +250,7 @@ export default function Editor() {
 												<div className="text-center">
                           <img src="/assets/empty.svg" className="mx-auto" style={{ width: "250px" }} />
                           <div className="py-4 text-sm text-center text-gray-500">
-                            No highlights yet.
+                            No highlights yet. Drag your cursor over text to highlight it.
                           </div>
                         </div>
 											)}
@@ -361,7 +361,7 @@ export default function Editor() {
                         <div className="text-center">
                           <img src="/assets/empty.svg" className="mx-auto" style={{ width: "250px" }} />
                           <div className="py-4 text-sm text-center text-gray-500">
-                            No searches yet.
+                            No searches yet. Semantic search takes a few minutes to index your data, and may not support larger PDF files.
                           </div>
                         </div>
                       )}
