@@ -2,6 +2,8 @@ import { InvokeCommand, LambdaClient, LogType } from "@aws-sdk/client-lambda";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { NextApiRequest, NextApiResponse } from "next";
+import { PineconeClient } from "pinecone-client";
+
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
@@ -23,10 +25,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 			LogType: LogType.Tail,
 		});
 
-		const { Payload } = await client.send(command);
+    const { Payload } = await client.send(command);
 		const asciiDecoder = new TextDecoder("ascii");
-		const data = asciiDecoder.decode(Payload);
-		console.log("data", data);
+    const data = asciiDecoder.decode(Payload);
+    const dataJSON = JSON.parse(data);
+    const cleanedJSON = JSON.parse(dataJSON.body.slice(2, dataJSON.body.length - 1));
+    console.log("cleanedJSON", cleanedJSON.vector);
+    // const d = JSON.parse(data);
+    // console.log("data", data, d);
+    // console.log("test", typeof(d), d);
+    
 		return data;
 	};
 
