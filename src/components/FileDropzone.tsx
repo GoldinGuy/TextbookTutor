@@ -56,11 +56,13 @@ function FileDropzone({ setFile }: { setFile: Function }) {
 		<section className="container">
 			<div
 				{...getRootProps({ className: "dropzone" })}
-				className="relative block w-full p-12 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-gray-400 focus:outline-none"
+				className="relative block w-full pt-5 pb-7 px-12 text-center border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:border-gray-400 focus:outline-none"
 			>
 				<input {...getInputProps()} />
 
-				<div className="flex items-center justify-center text-center">
+        <span className="text-xs font-medium bg-yellow-300 rounded-sm py-0.5 px-2">BETA</span>
+
+				<div className="my-5 flex items-center justify-center text-center">
 					{!uploading && (
 						<ArrowUpTrayIcon
 							className="mx-auto"
@@ -85,10 +87,10 @@ function FileDropzone({ setFile }: { setFile: Function }) {
 
 				{!uploading && (
 					<div className="block mt-2 text-sm font-medium text-gray-900">
-						(BETA) Drop your textbook here or click to upload
+						<span>Drop your textbook here or click to upload</span>
 						<br />
 						<span className="text-sm font-normal text-gray-600 ">
-							Only PDF files {"<"} 25MB. Please be patient 
+							Only PDF files {"<"} 25MB. Please be patient! 
 						</span>
 					</div>
 				)}

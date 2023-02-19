@@ -139,7 +139,7 @@ const HomePage = () => {
 							</p>
 						</div>
 						<div className="flex flex-col items-center justify-center mt-8 sm:mt-12">
-							<FileDropzone setFile={setFile} />
+              <FileDropzone setFile={setFile} />
 							<div className="flex w-20 h-16"></div>
 							{/* <div className="cards">
 								{sampleFiles.map((file, i) => {
