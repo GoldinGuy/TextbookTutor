@@ -13,19 +13,20 @@ import { useRouter } from "next/router";
 // ];
 const DEFAULT_TEXTBOOKS = [
 	{
-		name: "CHNS-120-Textbook+copy.pdf",
+		name: "sample1.pdf",
 		photo:
 			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
 	},
+
 	{
-		name: "CHNS-120-Textbook+copy.pdf",
+		name: "sample2.pdf",
 		photo:
-			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
+			"https://user-images.githubusercontent.com/47064842/219946828-5d12cd84-741b-4eba-8661-cdc60e7ee8a9.png",
 	},
 	{
-		name: "CHNS-120-Textbook+copy.pdf",
+		name: "sample3.pdf",
 		photo:
-			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
+			"https://user-images.githubusercontent.com/47064842/219946996-86a86dff-dfb6-497c-bc0c-d84ca29ebee2.png",
 	},
 ];
 
@@ -35,26 +36,26 @@ const HomePage = () => {
   const router = useRouter();
   const [file, setFile] = useState<string>("");
 	
-	useEffect(() => {
-		if (sampleFiles.length === 0) {
-			fetch("/api/get_samples")
-				.then((res) => res.json())
-				.then((data) => {
-					if (data) {
-						// console.log("data", data);
-						data.map((file: any) => {
-							setSampleFiles((prev) => [...prev, file.Key.replace(" ", "+")]);
-						});
-					}
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
-  }, [sampleFiles]);
+	// useEffect(() => {
+	// 	if (sampleFiles.length === 0) {
+	// 		fetch("/api/get_samples")
+	// 			.then((res) => res.json())
+	// 			.then((data) => {
+	// 				if (data) {
+	// 					// console.log("data", data);
+	// 					data.map((file: any) => {
+	// 						setSampleFiles((prev) => [...prev, file.Key.replace(" ", "+")]);
+	// 					});
+	// 				}
+	// 			})
+	// 			.catch((err) => {
+	// 				console.log(err);
+	// 			});
+	// 	}
+  // }, [sampleFiles]);
 
   useEffect(() => {
-    if (file.length > 0) router.push(`/editor?file=${file.replaceAll(" ", "+")}`);
+    if (file?.length > 0) router.push(`/editor?file=${file.replaceAll(" ", "+")}`);
 	}, [file, router]);
 
 	return (
@@ -191,11 +192,9 @@ const HomePage = () => {
 									);
                 })}
 							</div>
-							{sampleFiles.length > 0 && (
-								<div className="flex mt-16 mb-8 text-center text-gray-600">
-									Or try a textbook others have uploaded :)
-								</div>
-							)}
+              <div className="flex mt-16 mb-8 text-center text-gray-600">
+                Or try a textbook others have uploaded :)
+              </div>
 						</div>
 					</div>
 					<div className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]">

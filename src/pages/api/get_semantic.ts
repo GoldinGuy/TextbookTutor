@@ -2,10 +2,22 @@ import { InvokeCommand, LambdaClient, LogType } from "@aws-sdk/client-lambda";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { NextApiRequest, NextApiResponse } from "next";
-import { PineconeClient } from "pinecone-client";
+import { PineconeClient } from "@pinecone-database/pinecone";
+
 
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const textbookName = req.query.textbookName;
+  const query = req.query.query;
+
+  if (!textbookName || Array.isArray(textbookName)) {
+    res.status(500).json({ error: "Textbook name was not defined" });
+  }
+  const pinecone = new PineconeClient();
+	await pinecone.init({
+		environment: "us-east1-gcp",
+		apiKey: "f2a726aa-57e8-46bc-b9ef-0376b7c7ad32",
+	});
 
 	const invoke = async (funcName, payload) => {
 		const client = new LambdaClient({
@@ -30,22 +42,36 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const data = asciiDecoder.decode(Payload);
     const dataJSON = JSON.parse(data);
     const cleanedJSON = JSON.parse(dataJSON.body.slice(2, dataJSON.body.length - 1));
-    console.log("cleanedJSON", cleanedJSON.vector);
-    // const d = JSON.parse(data);
-    // console.log("data", data, d);
-    // console.log("test", typeof(d), d);
+    // console.log("cleanedJSON", cleanedJSON.vector);
+
+    const index = pinecone.Index("dewey")
+    const queryResponse = await index.query({
+    
+      vector: cleanedJSON.vector,
+      topK: 10,
+      includeValues: true,
+      includeMetadata: true,
+    //    filters: {
+    //   "genre": {"$in": ["comedy", "documentary", "drama"]}
+    // },
+})
+
+    console.log("queryResponse", queryResponse);
     
 		return data;
 	};
 
 	invoke("dewey-parse", {
-			"s3_file_name": "attention.pdf",
-			"isIndex": "false",
-			"query_to_embed": "what's a transformer?",
-			"isEmbed": "true",
+		s3_file_name: textbookName,
+		isIndex: "false",
+		query_to_embed: query,
+		isEmbed: "true",
 	});
 };
 export default handler;
+
+
+
 // const invoke = async (funcName, payload) => {
 //   const client = new LambdaClient({
 //     region: "us-east-1",
