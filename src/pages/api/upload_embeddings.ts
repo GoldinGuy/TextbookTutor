@@ -34,8 +34,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     });
 		console.log("cmd", payload);
 
-    const { Payload } = await client.send(command);
-		console.log("successfully did embeddings", Payload);
+    const response = await client.send(command);
+		console.log("successfully did embeddings", response);
 
 		return res.status(200).json({ status: "successfully uploaded embeddings" });
 	};
