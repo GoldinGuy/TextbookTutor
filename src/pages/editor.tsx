@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { Disclosure } from '@headlessui/react'
+import { MinusSmallIcon, PlusSmallIcon } from '@heroicons/react/24/outline'
 import Navbar from "../components/Navbar";
 import ChatDisplay from "../components/Editor/ChatDisplay";
 import { useRouter } from "next/router";
 import PDFViewer from "src/components/Editor/PDFViewer";
+import Loader from "src/components/Loader";
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import axios from "axios";
 
@@ -21,7 +24,7 @@ interface Highlight {
 
 interface Search {
   text: string;
-  preview: string;
+  results: string[];
 }
 
 function classNames(...classes: any) {
@@ -39,10 +42,12 @@ export default function Editor() {
   const [responseLoading, setResponseLoading] = useState(false);
   const [messageContent, setMessageContent] = useState("");
 
-  const [searchContent, setSearchContext] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-
   const [searches, setSearches] = useState<Search[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [currentSearch, setCurrentSearch] = useState<Search | null>(
+		null
+  );
+  const [searchContent, setSearchContext] = useState("");
 
   const [fileName, setFileName] = useState("");
   
@@ -65,10 +70,10 @@ export default function Editor() {
 			fetch(`/api/get_semantic?file=${fileName}&query=${query}`)
 				.then((res) => res.json())
 				.then((data) => {
-          console.log("data", data);
-          Object.keys(data).map((s, i) => {
-            setSearches((searches) => [...searches, { text: s?.slice(0, 30), preview: s?.slice(30) }]);
-          })
+          const { results } = data;
+          const newSearch = { text: query, results };
+          setSearches((searches) => [...searches, newSearch]);
+          setCurrentSearch(newSearch);
           setSearchContext("");
           setIsSearching(false);
 				})
@@ -113,7 +118,7 @@ export default function Editor() {
       setHighlights((highlights) => [...highlights, newHighlight]);
 			setCurrentHighlight(newHighlight);
 
-      sendMessage(`Explain the following highlighted text in the context of the PDF text: "${selection.toString()}"`);
+      sendMessage(`Explain the following highlighted text: "${selection.toString()}"`);
 		}
 	}
 
@@ -130,7 +135,7 @@ export default function Editor() {
           text: text,
           sender: {
             avatar:
-              "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?f=y",
+              `https://api.dicebear.com/5.x/fun-emoji/svg?seed=${"happy"}`,
           },
         },
       ],
@@ -149,7 +154,7 @@ export default function Editor() {
           text: response,
           sender: {
             avatar:
-            "https://pbs.twimg.com/profile_images/1603113436757389313/wpYDqrIf_400x400.jpg",
+            "/assets/logo.png",
           },
         },
       ],
@@ -161,9 +166,9 @@ export default function Editor() {
 	return (
 		<div
 			onMouseUp={handleHighlight}
-			className="absolute inset-0 flex flex-col w-full h-screen max-h-screen bg-gray-100 min-w-fit"
+			className="absolute inset-0 flex flex-col w-full max-h-screen bg-gray-100 min-w-fit"
 		>
-			{/* <Navbar /> */}
+			<Navbar />
 			<div className="flex-1 py-6">
 				<div className="h-full max-w-3xl mx-auto sm:px-6 md:grid md:max-w-7xl md:grid-cols-12 md:gap-8 md:px-8">
 					<main className="col-span-7">
@@ -173,7 +178,7 @@ export default function Editor() {
 							/>
 						)}
 					</main>
-					<aside className="col-span-5 overflow-hidden xl:block">
+					<aside className="col-span-5 xl:block">
 						<div className="sticky flex flex-col justify-between h-full p-5 space-y-4 bg-white rounded-md shadow-md top-6">
 							<div className="space-y-6">
 								<div className="hidden sm:block">
@@ -250,55 +255,113 @@ export default function Editor() {
 									))}
 
 								{mode === "search" && (
-									<>
-										<h3 className="text-lg font-semibold">Search</h3>
+                  (currentSearch ? (
+										<>
+											<div></div>
 
-										<div className="relative mt-1 rounded-md shadow-sm">
-											<div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-												<MagnifyingGlassIcon
-													className="w-5 h-5 text-gray-400"
-													aria-hidden="true"
-												/>
-											</div>
-											<input
-                        value={searchContent}
-                        onChange={(e) => setSearchContext(e.target.value)}
-                        readOnly={isSearching}
-												onKeyDown={(e) => {
-													if (e.keyCode === 13) {
-                            e.preventDefault();
-                            handleSemanticSearch(searchContent);
-													}
-												}}
-												type="text"
-												className="block w-full py-2 pl-10 pr-4 border border-gray-400 rounded-md focus:border-gray-800 sm:text-sm"
-												placeholder="Search here"
-											/>
-										</div>
+											<span
+												className="text-sm text-gray-600 cursor-pointer"
+												onClick={() => setCurrentSearch(null)}
+											>
+												&larr; Back
+											</span>
 
-										{searches.length > 0 ? (
-											<div className="space-y-2">
-												{searches.map((search) => (
-													<div
-														className="px-3 py-2 transition border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100"
-														key={search.text}
-													>
-														<h3 className="font-medium text-md">
-															{search.text}
-														</h3>
-														<p className="text-sm text-gray-500">
-															{search.preview}...
-														</p>
-													</div>
-												))}
+											<div>
+												<span className="block mb-1 text-xs font-medium text-gray-800">
+													Search Query
+												</span>
+												<span className="inline text-lg">
+													{currentSearch.text}
+												</span>
 											</div>
-										) : (
-											<div className="py-4 text-sm text-center text-gray-500">
-												No searches yet.
-											</div>
-										)}
-									</>
-								)}
+
+                      <div>
+                        <div className="mx-auto max-w-4xl divide-y divide-gray-900/10">
+                          <dl className="space-y-6 divide-y divide-gray-900/10">
+                            <span className="text-sm italic text-gray-500">{currentSearch.results.length} results</span>
+                            {currentSearch.results.map((result) => (
+                              <Disclosure as="div" key={result} className="pt-6">
+                                {({ open }) => (
+                                  <>
+                                    <dt>
+                                      <Disclosure.Button className="flex w-full items-start justify-between text-left text-gray-900">
+                                        <span className="text-base font-semibold leading-7">{result.substring(0,45)}...</span>
+                                        <span className="ml-6 flex h-7 items-center">
+                                          {open ? (
+                                            <PlusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                          ) : (
+                                            <MinusSmallIcon className="h-6 w-6" aria-hidden="true" />
+                                          )}
+                                        </span>
+                                      </Disclosure.Button>
+                                    </dt>
+                                    <Disclosure.Panel as="dd" className="mt-2 pr-12">
+                                      <p className="text-base leading-7 text-gray-600">{result}</p>
+                                    </Disclosure.Panel>
+                                  </>
+                                )}
+                              </Disclosure>
+                            ))}
+                          </dl>
+                        </div>
+                      </div>
+										</>
+									) : (
+                    <>
+                      <h3 className="text-lg font-semibold">Search</h3>
+
+                      <div className="relative mt-1 rounded-md shadow-sm">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                          <MagnifyingGlassIcon
+                            className="w-5 h-5 text-gray-400"
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <input
+                          value={searchContent}
+                          onChange={(e) => setSearchContext(e.target.value)}
+                          readOnly={isSearching}
+                          onKeyDown={(e) => {
+                            if (e.keyCode === 13) {
+                              e.preventDefault();
+                              handleSemanticSearch(searchContent);
+                            }
+                          }}
+                          type="text"
+                          className="block w-full py-2 pl-10 pr-4 border border-gray-400 rounded-md focus:border-gray-800 sm:text-sm"
+                          placeholder="Search here"
+                        />
+                      </div>
+
+                      {isSearching && (
+                        <Loader />
+                      )}
+
+                      {searches.length > 0 ? (
+                        <div className="space-y-2">
+                          {searches.map((search) => (
+                            <div
+                              className="px-3 py-2 transition border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100"
+                              onClick={() => setCurrentSearch(search)}
+                              key={search.text}
+                            >
+                              <h3 className="font-medium text-md">
+                                {search.text}
+                              </h3>
+                              <p className="text-sm text-gray-500">
+                                {search.results.length} results
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="py-4 text-sm text-center text-gray-500">
+                          No searches yet.
+                        </div>
+                      )}
+                    </>
+                  )
+								))}
 							</div>
 
 							{mode === "highlight" && currentHighlight && (

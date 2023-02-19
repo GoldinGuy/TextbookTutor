@@ -14,7 +14,7 @@ const ChatDisplay: React.FC<ChatDisplayProps> = ({ threadData, responseLoading }
       ))}
       {responseLoading && (
         <div className="flex py-5 space-x-3">
-          <img className="w-10 h-10 rounded-md" src="https://pbs.twimg.com/profile_images/1603113436757389313/wpYDqrIf_400x400.jpg" />
+          <img className="w-10 h-10 rounded-md" src="/assets/logo.png" />
           <p className="text-gray-700 text-md italic">Response loading...</p>
         </div>
       )}
