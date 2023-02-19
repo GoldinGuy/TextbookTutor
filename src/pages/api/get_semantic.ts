@@ -46,16 +46,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     const index = pinecone.Index("dewey")
     const queryResponse = await index.query({
-    
-      vector: cleanedJSON.vector,
-      topK: 10,
-      includeValues: true,
+			vector: cleanedJSON.vector,
+			topK: 5,
+			includeValues: true,
       includeMetadata: true,
-    //    filters: {
-    //   "genre": {"$in": ["comedy", "documentary", "drama"]}
-    // },
-
-    })
+			filter: {
+				file_name: textbookName,
+			},
+			//    filters: {
+			//   "genre": {"$in": ["comedy", "documentary", "drama"]}
+			// },
+		});
     
     let semantic_searched: string[] = [];
     if (
