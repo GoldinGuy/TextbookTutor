@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import ChatDisplay from "../components/Editor/ChatDisplay";
-import PDFViewer from "../components/Editor/PDFViewer";
 
 interface Thread {
   id: number;
