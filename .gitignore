@@ -35,3 +35,4 @@ local
 # vercel
 .vercel
 
+tsconfig.tsbuildinfo
