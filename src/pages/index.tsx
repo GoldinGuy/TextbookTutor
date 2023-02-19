@@ -4,12 +4,12 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 import FileDropzone from "../components/FileDropzone";
 
-const navigation = [
-	{ name: "Product", href: "#" },
-	{ name: "Features", href: "#" },
-	{ name: "Marketplace", href: "#" },
-	{ name: "Company", href: "#" },
-];
+// const navigation = [
+// 	{ name: "Product", href: "#" },
+// 	{ name: "Features", href: "#" },
+// 	{ name: "Marketplace", href: "#" },
+// 	{ name: "Company", href: "#" },
+// ];
 
 const HomePage = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -82,7 +82,7 @@ const HomePage = () => {
 							<Bars3Icon className="w-6 h-6" aria-hidden="true" />
 						</button>
 					</div>
-					<div className="hidden lg:flex lg:gap-x-12">
+					{/* <div className="hidden lg:flex lg:gap-x-12">
 						{navigation.map((item) => (
 							<a
 								key={item.name}
@@ -92,7 +92,7 @@ const HomePage = () => {
 								{item.name}
 							</a>
 						))}
-					</div>
+					</div> */}
 					<div className="hidden lg:flex lg:flex-1 lg:justify-end">
 						<a
 							href="#"
@@ -104,22 +104,22 @@ const HomePage = () => {
 				</nav>
 			</div>
 			<main>
-				<div className="relative py-16 sm:py-24 lg:pb-40">
+				<div className="relative py-16 sm:py-16 lg:pb-40">
 					<div className="px-6 mx-auto max-w-7xl lg:px-8">
 						<div className="max-w-2xl mx-auto text-center">
 							<h1 className="text-4xl font-bold leading-tight tracking-tight text-gray-900 sm:text-6xl">
-								Reading textbooks just got easier
+								Textbooks just got upgraded
 							</h1>
 							<p className="mt-6 text-lg leading-8 text-gray-600">
-								Easily understand your textbooks with our AI-powered, chat-based
-								explanations and semantic search.
+								Easily understand your readings with Dewey&apos;s AI-powered
+								chat-based explanations and semantic search.
 							</p>
 						</div>
-						<div className="flex flex-col items-center justify-center mt-16 sm:mt-24">
+						<div className="flex flex-col items-center justify-center mt-12 sm:mt-16">
 							<FileDropzone />
 
 							{sampleFiles.length > 0 && (
-								<div className="flex mt-20 mb-8 text-center">
+								<div className="flex mt-16 mb-8 text-center text-gray-600">
 									Or try a textbook others have uploaded:
 								</div>
 							)}
