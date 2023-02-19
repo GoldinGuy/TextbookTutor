@@ -85,10 +85,10 @@ function FileDropzone({ setFile }: { setFile: Function }) {
 
 				{!uploading && (
 					<div className="block mt-2 text-sm font-medium text-gray-900">
-						Drop your textbook here or click to upload
+						(BETA) Drop your textbook here or click to upload
 						<br />
 						<span className="text-sm font-normal text-gray-600 ">
-							Only PDF files {"<"} 25MB
+							Only PDF files {"<"} 25MB. Please be patient 
 						</span>
 					</div>
 				)}
