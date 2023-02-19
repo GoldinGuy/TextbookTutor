@@ -132,7 +132,7 @@ export default function Editor() {
           text: text,
           sender: {
             avatar:
-              `https://api.dicebear.com/5.x/fun-emoji/svg?seed=${"happy"}`,
+              `https://api.dicebear.com/5.x/fun-emoji/svg`,
           },
         },
       ],
@@ -163,7 +163,7 @@ export default function Editor() {
 	return (
 		<div
 			onMouseUp={handleHighlight}
-			className="absolute inset-0 flex flex-col w-full max-h-screen bg-gray-100 min-w-fit"
+			className="absolute inset-0 flex flex-col w-full min-h-screen bg-gray-100 min-w-fit"
 		>
 			<Navbar />
 			<div className="flex-1 py-6">
@@ -244,9 +244,12 @@ export default function Editor() {
 													))}
 												</div>
 											) : (
-												<div className="py-4 text-sm text-center text-gray-500">
-													No highlights yet.
-												</div>
+												<div className="text-center">
+                          <img src="/assets/empty.svg" className="mx-auto" style={{ width: "250px" }} />
+                          <div className="py-4 text-sm text-center text-gray-500">
+                            No highlights yet.
+                          </div>
+                        </div>
 											)}
 										</>
 									))}
@@ -352,8 +355,11 @@ export default function Editor() {
                           ))}
                         </div>
                       ) : (
-                        <div className="py-4 text-sm text-center text-gray-500">
-                          No searches yet.
+                        <div className="text-center">
+                          <img src="/assets/empty.svg" className="mx-auto" style={{ width: "250px" }} />
+                          <div className="py-4 text-sm text-center text-gray-500">
+                            No searches yet.
+                          </div>
                         </div>
                       )}
                     </>

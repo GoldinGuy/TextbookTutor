@@ -5,6 +5,18 @@
 @tailwind utilities;
 
 
+/* PDF VIEWER STYLE OVERRIDES */
+.viewer-layout-container {
+  border: none !important;
+}
+
+.viewer-layout-toolbar {
+  background-color: white !important;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+
 #gradient-canvas {
   top: 0px;
   position: fixed;

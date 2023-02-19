@@ -118,8 +118,9 @@ const HomePage = () => {
 						<a
 							href="#"
 							className="text-sm font-semibold leading-6 text-gray-900"
+              onClick={() => setFile("sample2.pdf")}
 						>
-							Log in <span aria-hidden="true">&rarr;</span>
+							Try it out <span aria-hidden="true">&rarr;</span>
 						</a>
 					</div>
 				</nav>
