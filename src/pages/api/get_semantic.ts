@@ -7,11 +7,11 @@ import { PineconeClient } from "@pinecone-database/pinecone";
 
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const textbookName = req.query.textbookName;
+  const textbookName = req.query.file;
   const query = req.query.query;
 
   if (!textbookName || Array.isArray(textbookName)) {
-    res.status(500).json({ error: "Textbook name was not defined" });
+    return res.status(500).json({ error: "Textbook name was not defined" });
   }
   const pinecone = new PineconeClient();
 	await pinecone.init({
@@ -41,7 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 		const asciiDecoder = new TextDecoder("ascii");
     const data = asciiDecoder.decode(Payload);
     const dataJSON = JSON.parse(data);
-    const cleanedJSON = JSON.parse(dataJSON.body.slice(2, dataJSON.body.length - 1));
+    const cleanedJSON = JSON.parse(dataJSON?.body?.slice(2, dataJSON.body.length - 1));
     // console.log("cleanedJSON", cleanedJSON.vector);
 
     const index = pinecone.Index("dewey")
@@ -54,11 +54,28 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     //    filters: {
     //   "genre": {"$in": ["comedy", "documentary", "drama"]}
     // },
-})
 
-    console.log("queryResponse", queryResponse);
+    })
     
-		return data;
+    let semantic_searched: string[] = [];
+    if (
+			queryResponse?.data?.matches?.length &&
+			queryResponse?.data?.matches?.length > 0
+    ) {
+      queryResponse.data.matches.map((match, i) => {
+        const meta = match["metadata"];
+        if (meta) {
+          const doc = meta["document_string"];
+          if (doc) {
+            semantic_searched.push(doc);
+          }
+        }
+        ;
+      });
+		}
+			// console.log("queryResponse", queryResponse);
+    // console.log("queryResponse", JSON.stringify(queryResponse?.data?.matches));
+		return res.status(200).json({ results: semantic_searched });
 	};
 
 	invoke("dewey-parse", {

@@ -44,8 +44,14 @@ export default function Editor() {
   const [fileName, setFileName] = useState("");
   
   useEffect(() => {
-      fetch("/api/get_semantic");
-  }, []);
+    if (fileName.length > 0) {
+      fetch(`/api/get_semantic?file=${fileName}&query=${'what do you think about transformers?'}`).then((res) => res.json()).then((data) => {
+        console.log("data", data);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
+  }, [fileName]);
 
 	// Set search query from URL
 	useEffect(() => {
