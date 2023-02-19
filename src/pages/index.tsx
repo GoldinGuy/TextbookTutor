@@ -15,7 +15,8 @@ const DEFAULT_TEXTBOOKS = [
 	{
 		name: "sample1.pdf",
 		photo:
-			"https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
+			"https://user-images.githubusercontent.com/47064842/219946996-86a86dff-dfb6-497c-bc0c-d84ca29ebee2.png",
+		// "https://user-images.githubusercontent.com/47064842/219933899-db4d061c-0a25-4bf5-b3b2-58b566948506.png",
 	},
 
 	{
@@ -26,7 +27,7 @@ const DEFAULT_TEXTBOOKS = [
 	{
 		name: "sample3.pdf",
 		photo:
-			"https://user-images.githubusercontent.com/47064842/219946996-86a86dff-dfb6-497c-bc0c-d84ca29ebee2.png",
+			"https://user-images.githubusercontent.com/47064842/219959800-4f432fdb-c62c-4b45-8443-f9c8b8ae0f49.png",
 	},
 ];
 
